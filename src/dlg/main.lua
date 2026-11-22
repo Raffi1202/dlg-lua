@@ -3,7 +3,7 @@
 -- Für ein neues Lua ändern sich hier nur die vier Zeilen NAME, KEY, VERSION und INFO.
 local NAME = "DLG"     -- Anzeigename in Ethos und Vorsatz aller Meldungen
 local KEY = "dlg"       -- Schlüssel des Widgets: kurz, klein, eindeutig; nach der ersten Abgabe nie mehr ändern
-local VERSION = "0.3.1"    -- die Versionsnummer steht nur hier (x.y.z); das Suite-Paket liest sie von hier
+local VERSION = "0.3.2"    -- die Versionsnummer steht nur hier (x.y.z); das Suite-Paket liest sie von hier
 local INFO = "DLG: flight mode, launch height per launch, F3K tasks with working time, vario, flight time and launch list for discus launch gliders."   -- ein Satz für die FrSky Suite
 local K = nil
 local gemeldet = {}

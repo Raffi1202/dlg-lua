@@ -1,7 +1,7 @@
 # DLG: Sprachansagen
 
 Diese Liste ist die einzige Quelle der Ansagen. Texte immer hier ändern und dann neu erzeugen lassen
-(Sprach-Sitzung, Werkzeug `~/Documents/20_RC_Modellbau/Ethos Sounds/ethos_sound.py`).
+(Ansagen mit Google TTS erzeugt: de-DE-Wavenet-E / en-US-Wavenet-F).
 Ablage: `src/dlg/audio/de/<Dateiname>.wav` und `src/dlg/audio/en/<Dateiname>.wav`.
 Format WAV A-law, mono, 16 kHz, 8 Bit. Lautstärke nicht anpassen. Folgt im Skript direkt eine Zahl, vorne und
 hinten keine Stille. Vor dem Einsetzen anhören lassen.

@@ -143,16 +143,18 @@ end
 local AUDIO_DA = {}
 local function sage(w, name)
   if not system.playFile then return false end
-  local pfad = "audio/" .. (w.sp == 1 and "de" or "en") .. "/" .. name .. ".wav"
-  local da = AUDIO_DA[pfad]
-  if da == nil then
-    local ok, f = pcall(io.open, pfad, "r")
-    da = (ok and f ~= nil) or false
-    if da then pcall(f.close, f) end
-    AUDIO_DA[pfad] = da
+  local rel = "audio/" .. (w.sp == 1 and "de" or "en") .. "/" .. name .. ".wav"
+  local pfad = AUDIO_DA[rel]                       -- gefundener Pfad (Skriptordner, sonst relativ) oder false
+  if pfad == nil then
+    pfad = false
+    for _, p in ipairs({ (K.DIR or "") .. rel, rel }) do
+      local ok, f = pcall(io.open, p, "r")
+      if ok and f then pcall(f.close, f) pfad = p break end
+    end
+    AUDIO_DA[rel] = pfad
   end
-  if da then pcall(system.playFile, pfad) end
-  return da
+  if pfad then pcall(system.playFile, pfad) w.letzteAnsage = pfad end
+  return pfad ~= false
 end
 
 -- Nummer der Einheit (UNIT_…) für die Zahlenansage, sonst der Ersatz.
@@ -842,7 +844,7 @@ function K.wecke(w)
     if TEST and TEST.zustand then
       local f, k = w.flug, w.f3k
       local _, sum = wertung(aufgabe(w), k.fl, k.zl)
-      w.testExtra = { flug = f and { t = f.t, wurf = f.wurf, hmax = f.hmax, imWurf = f.w ~= nil } or false,
+      w.testExtra = { ansage = w.letzteAnsage or "", flug = f and { t = f.t, wurf = f.wurf, hmax = f.hmax, imWurf = f.w ~= nil } or false,
         nListe = #w.liste, letzter = w.liste[#w.liste] or false, phase = w.v.phase or false,
         phaseName = w.v.phaseName or false, f3k = { an = k.an or false, rest = k.rest or false, n = #k.fl,
         starts = k.starts or 0, summe = sum or false, aufgabe = w.cfg.aufgabe, treffer = k.treffer or 0,
@@ -898,7 +900,8 @@ function K.wecke(w)
         w.fehler = "Suche: " .. tostring(n)
         w.autoOffen = false
       end
-      if w.nAuto >= 10 or (ok and type(n) == "number" and n > 0) then w.autoOffen = false end
+      local c = w.cfg                                -- weiter suchen, bis alle Felder belegt sind (höchstens 10 Versuche)
+      if w.nAuto >= 10 or (c.hoehe and c.vario and c.rx and c.lq) then w.autoOffen = false end
     end
   end
 
@@ -1012,6 +1015,10 @@ local function knopf(w, id, now)
   elseif id == "runter" then
     w.oben = (w.oben or 0) + 1
   elseif id == "abbrechen" then
+    if w.dialog == "f3kWeiter" then              -- Runde nicht fortsetzen: als beendet sichern, sonst fragt reload erneut
+      w.f3k.an, w.f3k.ende = false, true
+      w.dateiOffen, w.dateiJetzt = true, true
+    end
     w.dialog = nil
   end
   w.tB = 0
@@ -1020,6 +1027,8 @@ end
 -- Wisch nach links/rechts blättert zwischen den Seiten. Am Rand (Seite 1 nach rechts, letzte Seite nach links)
 -- bleibt der Wisch bei Ethos, damit man wie gewohnt zum nächsten Bildschirm kommt (gemessen 26.1.2: Ethos blättert
 -- nur, wenn das Widget die Bewegung nicht für sich behält). Bei offener Rückfrage wird nicht geblättert.
+K.knopf = knopf   -- für die Mac-Tests (test/fortsetzen-faelle.lua)
+
 function K.ereignis(w, kat, wert, x, y)
   if kat ~= EVT_TOUCH then return false end
   x, y = gut(x), gut(y)
@@ -1111,7 +1120,19 @@ function K.lies(w)
     w.f3k = { an = false, nr = g.nr, rest = g.rest, lauf = g.lauf, fl = g.fl, zl = g.zl, starts = g.starts,
       treffer = g.treffer, zielFest = g.zielFest, zielAkt = g.zielAkt, wFertig = g.wFertig, ende = not g.warAn, uhr = g.uhr }
     w.cfg.aufgabe = g.nr
-    if g.warAn then w.dialog = "f3kWeiter" end
+    if g.warAn then
+      -- Restzeit nach Abzug der Auszeit schon hier prüfen: abgelaufen = beendet laden, nicht mehr anbieten
+      local okU, uhr = pcall(os.time)
+      local weg = (okU and type(uhr) == "number" and g.uhr and uhr >= g.uhr) and (uhr - g.uhr) or 0
+      if g.rest and g.rest - weg <= 0 then
+        w.f3k.rest, w.f3k.ende = 0, true
+        w.dateiOffen, w.dateiJetzt = true, true
+        hinweis(w, w.T.f3kAbgelaufen, os.clock())
+      else
+        w.dialog = "f3kWeiter"
+        w.weiterRest = g.rest and math.floor(g.rest - weg) or nil
+      end
+    end
   end
   w.autoOffen = not w.gelesen
   w.testCfg = nil                                  -- Testwerte nach dem Lesen einmal neu setzen

@@ -298,7 +298,11 @@ function Z.dialog(w, L)
   local titel = T[d[1]]
   if w.dialog == "loesch" then titel = string.format(titel, tostring(w.loeschNr)) end
   Z.text(L, W / 2, y + 42 * s, titel, 26, C.text, CENTERED, b - 30 * s)
-  if d[2] then Z.text(L, W / 2, y + 82 * s, T[d[2]], 15, C.dim, CENTERED, b - 30 * s) end
+  local zeile = d[2] and T[d[2]]
+  if w.dialog == "f3kWeiter" and w.weiterRest then      -- Restzeit nach Abzug der Auszeit
+    zeile = string.format(T.weiterRest, string.format("%d:%02d", w.weiterRest // 60, w.weiterRest % 60))
+  end
+  if zeile then Z.text(L, W / 2, y + 82 * s, zeile, 15, C.dim, CENTERED, b - 30 * s) end
   local kb, kh = (b - 3 * 22 * s) / 2, max(46 * s, L.tipp or 0)
   local ky = y + h - kh - 22 * s
   Z.knopf(w, L, d[6], x + 22 * s, ky, kb, kh, T[d[5]], C.dim, false, 15)

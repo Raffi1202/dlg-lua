@@ -267,6 +267,7 @@ function M.lies(w)
   end
   -- Zahlen und dauerhafte Werte aus der Datei
   local text = liesDatei(M.datei())
+  if text == nil and M.DIR ~= "" then text = liesDatei(M.datei():sub(#M.DIR + 1)) end   -- Daten bis 0.3.0 (relativ)
   if text then
     gefunden = true
     w.dauer, w.liste, w.offen, w.f3kGesp = {}, {}, nil, nil        -- ein zweites Lesen darf nichts doppelt führen
@@ -274,7 +275,8 @@ function M.lies(w)
       local k, v = zeile:match("^%s*([%w_]+)%s*=%s*(.-)%s*$")
       if k == "k" and v then                           -- F3K-Runde: Aufgabe, läuft, Rest, Lauf, Starts, Treffer, Ziel fest, Ziel, W fertig
         local t = {}
-        for x in (v .. ","):gmatch("([^,]*),") do t[#t + 1] = tonumber(x) end
+        local i = 0                                    -- leere Felder zählen mit (sonst verrutscht die Uhrzeit)
+        for x in (v .. ","):gmatch("([^,]*),") do i = i + 1 t[i] = tonumber(x) end
         if t[1] and t[1] >= 1 and t[1] <= 17 then
           w.f3kGesp = { nr = math.floor(t[1]), warAn = t[2] == 1, rest = (t[3] and t[3] >= 0 and t[3] <= 900) and t[3] or nil,
             lauf = M.zahlOder(t[4], 0, 36000), starts = M.zahlOder(t[5], 0, 99) or 0, treffer = M.zahlOder(t[6], 0, 3) or 0,
@@ -357,10 +359,13 @@ function M.textListe(w)
   local f0 = w.flug
   if f0 then z[#z + 1] = "o=" .. zz(f0.wurf) .. "," .. string.format("%.1f", f0.t or 0) .. "," .. zz(f0.hmax) end
   local k = w.f3k
-  if k and (k.an or #(k.fl or {}) > 0) then
+  -- Rückfrage «Runde fortsetzen?» noch offen: Runde weiter als laufend mit der alten Uhrzeit sichern (Auszeit bleibt)
+  local warten = w.dialog == "f3kWeiter" and k ~= nil and k.uhr ~= nil
+  if k and (k.an or warten or #(k.fl or {}) > 0) then
     local okU, uhr = pcall(os.time)                -- Uhrzeit beim Sichern: beim Fortsetzen läuft die Arbeitszeit nach
+    if warten then okU, uhr = true, k.uhr end
     uhr = (okU and type(uhr) == "number") and string.format("%.0f", uhr) or ""
-    z[#z + 1] = string.format("k=%d,%d,%s,%s,%d,%d,%d,%s,%d,%s", k.nr or 1, k.an and 1 or 0, k.rest and string.format("%.1f", k.rest) or "-1",
+    z[#z + 1] = string.format("k=%d,%d,%s,%s,%d,%d,%d,%s,%d,%s", k.nr or 1, (k.an or warten) and 1 or 0, k.rest and string.format("%.1f", k.rest) or "-1",
       k.lauf and string.format("%.1f", k.lauf) or "", k.starts or 0, k.treffer or 0, k.zielFest and 1 or 0,
       k.zielAkt and string.format("%.0f", k.zielAkt) or "", k.wFertig and 1 or 0, uhr)
     local t = {}

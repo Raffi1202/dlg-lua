@@ -3,6 +3,24 @@
 Die Versionsnummer steht in `src/dlg/main.lua` (`local VERSION`). Sie ist dieselbe in der Anleitung, im
 Paket für die Suite und hier. Der oberste Abschnitt erscheint in der FrSky Suite als Versionshinweis.
 
+## 0.3.2 (22.11.2026)
+
+- F3K-Runde fortsetzen: Die Auszeit wurde nie abgezogen, weil beim Lesen ein leeres Feld (ohne Poker-Ziel) die
+  Uhrzeit verschob. Behoben.
+- Rückfrage «Runde fortsetzen?» zeigt die Restzeit nach Abzug der Auszeit. Ist die Zeit schon abgelaufen, wird die
+  Runde als beendet geladen (Hinweis «F3K-Runde abgelaufen, beendet»). «Abbrechen» beendet die Runde und sichert sie.
+- Solange die Rückfrage offen ist, bleibt die Runde als laufend mit der alten Uhrzeit gesichert.
+- Sprachansagen werden auch nach «reload SCRIPTS» gefunden (Skriptordner, sonst relativ).
+- Update von 0.3.0: Die Startliste wird einmal am alten Ort gelesen, falls im Skriptordner noch keine Datei liegt.
+- Automatische Sensorsuche beim ersten Start sucht weiter, bis Höhe, Vario, RX-Akku und Empfang belegt sind.
+
+*EN: Resume F3K round: the off time was never deducted because an empty field (no poker target) shifted the saved
+clock time when reading. Fixed. «Resume round?» shows the remaining time after the deduction; an expired round loads
+as ended («F3K round expired, ended»); «Cancel» ends and saves the round. While the question is open, the round stays
+saved as running with the old clock time. Voice files are found after «reload SCRIPTS». Update from 0.3.0: the launch
+list is read once from the old location. Automatic sensor search on first start continues until altitude, vario, RX
+battery and link are assigned.*
+
 ## 0.3.1 (22.11.2026)
 
 - Nach «reload SCRIPTS» ruft Ethos die Widget-Funktionen auch ohne Widget auf: kein Fehler mehr im Log.

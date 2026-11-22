@@ -75,8 +75,10 @@ local TEXT = {
   neuTitel = { "Neue Runde starten?", "Start new round?" },
   neuZeile = { "Die Flüge der letzten Runde fallen weg.", "The flights of the last round are cleared." },
   neuJa = { "JA, STARTEN", "YES, START" },
-  weiterTitel = { "Runde fortsetzen?", "Continue round?" },
+  weiterTitel = { "Runde fortsetzen?", "Resume round?" },
   weiterZeile = { "Die F3K-Runde lief beim Ausschalten.", "The F3K round was running at power off." },
+  weiterRest = { "Die F3K-Runde lief beim Ausschalten. Rest %s", "The F3K round was running at power off. %s left" },
+  f3kAbgelaufen = { "F3K-Runde abgelaufen, beendet", "F3K round expired, ended" },
   weiterJa = { "JA, FORTSETZEN", "YES, CONTINUE" },
   abbrechen = { "ABBRECHEN", "CANCEL" },
   -- Menü (Kopf)

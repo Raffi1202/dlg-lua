@@ -8,7 +8,7 @@ The F3K page follows the FAI Sporting Code, Volume F3 (2025), F3K.11. Left: task
 - **Tap the left field** to start the working time; tap again to stop (with question). Without touch: menu «F3K working time» or the working time switch.
 - Announcements: every full minute, the last 10 seconds counted, «Working time over».
 - **Poker (E)**: set the target with − / + (5 s steps) or **W** (end of working time, one attempt only). At launch the target is fixed and announced; it stays until reached. Up to three reached targets count.
-- If the radio is switched off during a round, DLG asks **«Continue round?»** at the next start; the time the radio was off is deducted.
+- If the radio is switched off during a round, DLG asks **«Resume round?»** at the next start; the time the radio was off is deducted.
 
 | Task | Working time | Score |
 |---|---|---|
