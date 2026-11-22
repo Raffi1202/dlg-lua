@@ -3,17 +3,26 @@
 -- Für ein neues Lua ändern sich hier nur die vier Zeilen NAME, KEY, VERSION und INFO.
 local NAME = "DLG"     -- Anzeigename in Ethos und Vorsatz aller Meldungen
 local KEY = "dlg"       -- Schlüssel des Widgets: kurz, klein, eindeutig; nach der ersten Abgabe nie mehr ändern
-local VERSION = "0.3.0"    -- die Versionsnummer steht nur hier (x.y.z); das Suite-Paket liest sie von hier
+local VERSION = "0.3.1"    -- die Versionsnummer steht nur hier (x.y.z); das Suite-Paket liest sie von hier
 local INFO = "DLG: flight mode, launch height per launch, F3K tasks with working time, vario, flight time and launch list for discus launch gliders."   -- ein Satz für die FrSky Suite
 local K = nil
 local gemeldet = {}
 
+-- Ordner dieses Skripts (z. B. «SD:/scripts/dlg/»): Nach «reload SCRIPTS» stimmt der relative Pfad im Simulator nicht
+-- mehr («cannot open /kern.lua»). Ohne debug-Bibliothek bleibt es beim relativen Pfad wie bisher.
+local DIR = ""
+pcall(function()
+  local q = debug.getinfo(1, "S").source
+  DIR = (type(q) == "string" and q:match("^@?(.*/)")) or ""
+end)
+
 local function kern()
   if K == nil then
-    local f, e = loadfile("kern.lua")
+    local f, e = loadfile(DIR .. "kern.lua")
+    if not f and DIR ~= "" then f, e = loadfile("kern.lua") end
     if not f then error(e, 0) end
     K = f()
-    K.VERSION, K.NAME, K.INFO = VERSION, NAME, INFO
+    K.VERSION, K.NAME, K.INFO, K.DIR = VERSION, NAME, INFO, DIR
   end
   return K
 end
@@ -37,8 +46,12 @@ local function create()
   return { fehler = "create: " .. tostring(w) }
 end
 
+-- Nach «reload SCRIPTS» ruft Ethos die Widget-Funktionen am Sender auch mit w = nil auf: dann nichts tun
+local function bereit(w) return type(w) == "table" and w.cfg ~= nil end
+
 local function paint(w)
-  if w.cfg then ruf("zeichne", w) end
+  if type(w) ~= "table" then return end
+  if bereit(w) then ruf("zeichne", w) end
   if w.fehler then                             -- Fehler klein und sichtbar über dem Bild, unten links
     pcall(function()
       local t = NAME .. ": " .. tostring(w.fehler)
@@ -57,12 +70,12 @@ local function init()
     key = KEY,
     name = NAME,
     create = create,
-    wakeup = function(w) if w.cfg then ruf("wecke", w) end end,
+    wakeup = function(w) if bereit(w) then ruf("wecke", w) end end,
     paint = paint,
-    event = function(w, kat, wert, x, y) if w.cfg then return ruf("ereignis", w, kat, wert, x, y) end end,
-    configure = function(w) if w.cfg then ruf("menue", w) end end,
-    read = function(w) if w.cfg then ruf("lies", w) end end,
-    write = function(w) if w.cfg then ruf("schreibe", w) end end,
+    event = function(w, kat, wert, x, y) if bereit(w) then return ruf("ereignis", w, kat, wert, x, y) end end,
+    configure = function(w) if bereit(w) then ruf("menue", w) end end,
+    read = function(w) if bereit(w) then ruf("lies", w) end end,
+    write = function(w) if bereit(w) then ruf("schreibe", w) end end,
     title = false,
   })
 end

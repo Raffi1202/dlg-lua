@@ -31,7 +31,7 @@
   .haken li::before { content: "☐  "; font-size: 12pt; }
   .neu { break-before: page; }
   .klein { font-size: 9pt; color: #56607a; }
-</style></head><body><h1>DLG</h1><div class='unter'>Widget für Wurfgleiter (DLG) auf FrSky-Sendern mit Ethos · Anleitung · Version 0.3.0 · Stand 22.11.2026</div>
+</style></head><body><h1>DLG</h1><div class='unter'>Widget für Wurfgleiter (DLG) auf FrSky-Sendern mit Ethos · Anleitung · Version 0.3.1 · Stand 22.11.2026</div>
 <div class="bild schmal"><img src="../bilder-simulator/DLG - Sim 800x480 04 Normal.png" alt=""><div class="t">Seite FLUG: oben die Flugphase, darunter Flugzeit, Wurfhöhe, Vario, Höhe, Empfänger-Akku und Empfang.</div></div>
 <div class='kasten'><b>Kurz:</b> DLG zeigt die aktive Flugphase gross und farbig, misst die Wurfhöhe bei jedem Start, führt eine Liste der letzten 50 Starts und hilft bei allen F3K-Aufgaben mit Arbeitszeit, Ansagen und Wertung. Das Vario wird nur angezeigt: kein Vario-Ton, kein Thermik-Hinweis.</div>
 <h2>1. Was du brauchst</h2><ul class='haken'>
@@ -40,7 +40,7 @@
 <li>Telemetrie eingeschaltet und Sensoren gefunden (Modell › Telemetrie › Sensoren suchen)</li>
 <li>Für Phasen-Anzeige und -Ansage: Flugphasen im Modell angelegt und benannt</li>
 </ul>
-<h2>2. Installieren</h2><ol><li>Die ZIP entpacken. Darin liegt das Paket für die FrSky Suite und diese Anleitung.</li><li>In der FrSky Suite den Sender verbinden und das Paket <code>DLG-0.3.0.zip</code> installieren.</li><li>Sender neu starten.</li></ol><p class='klein'>Ohne Suite: Sender als USB-Speicher anschliessen und den Ordner <code>dlg</code> nach <code>scripts/</code> auf die SD-Karte kopieren.</p>
+<h2>2. Installieren</h2><ol><li>Die ZIP entpacken. Darin liegt das Paket für die FrSky Suite und diese Anleitung.</li><li>In der FrSky Suite den Sender verbinden und das Paket <code>DLG-0.3.1.zip</code> installieren.</li><li>Sender neu starten.</li></ol><p class='klein'>Ohne Suite: Sender als USB-Speicher anschliessen und den Ordner <code>dlg</code> nach <code>scripts/</code> auf die SD-Karte kopieren.</p>
 <h2>3. Bildschirm einrichten</h2><ol><li>Modell › Bildschirme › neuer Bildschirm, Layout «Vollbild».</li><li>Widget «DLG» wählen.</li><li>Sobald Telemetrie da ist, weist DLG die Sensoren selbst zu (Meldung oben). Prüfen im Widget-Menü unter «Sensoren».</li></ol>
 <div class="bild schmal"><img src="../bilder-simulator/DLG - Sim 800x480 03 Menue.png" alt=""><div class="t">Widget-Menü: Modell › Bildschirme › Widget antippen. Oben «Sensoren suchen (nur leere)», darunter die Gruppen.</div></div>
 <h2 class='neu'>4. Seite FLUG</h2>
@@ -63,4 +63,4 @@
 <h2>10. Lua-Studio</h2><p>Mit <a href="https://github.com/Raffi1202/lua-studio">Lua-Studio</a> stellst du die Seite FLUG am PC zusammen (Werte, Anordnung, Grenzen) und überträgst sie auf den Sender. Ohne Studio-Datei zeigt DLG die Seite wie oben.</p><p><b>Ein Layout für alle Modelle:</b> In Lua-Studio beim Übertragen «Für alle Modelle (Standard)» wählen. Die Datei heisst dann <code>Standard.dlg.lua</code> und gilt für jedes Modell ohne eigene Datei. Reihenfolge: 1. Wahl im Menü «Studio-Layout», 2. Datei des Modells (Modellname.dlg.lua, z. B. <code>Segler_A.dlg.lua</code>), 3. <code>Standard.dlg.lua</code>, 4. eingebaute Seite. Im Menü erscheint der Eintrag «Standard (alle Modelle)»; «automatisch» zeigt in Klammern, was gerade gilt. Änderungen im Menü am Sender gelten nur für das aktuelle Modell. Heisst ein Modell selbst «Standard», gilt die Datei als seine Modelldatei.</p>
 <h2>11. Wenn etwas nicht geht</h2>
 <table><tr><th>Was</th><th>Was tun</th></tr><tr><td>Striche statt Werte</td><td>Telemetrie fehlt oder Sensor nicht gewählt: Menü › «Sensoren suchen (nur leere)».</td></tr><tr><td>Keine Wurfhöhe</td><td>«Wurf ab Steigen» zu hoch, oder Schalter/Flugphase für «Wurf endet bei» falsch gewählt.</td></tr><tr><td>Phase wird mit Nummer angesagt</td><td>Name enthält keines der Wörter Start, Zoom, Speed, Therm, Strecke/Cruise, Land, Normal: Ansage im Menü fest wählen.</td></tr><tr><td>Klein: «nur im Vollbild»</td><td>Widget braucht einen Vollbild-Bildschirm.</td></tr></table>
-<h2>12. Sender</h2><p>Gebaut für alle FrSky-Sender mit Ethos und Farbdisplay (800 × 480, 640 × 360, 480 × 320, 480 × 272). Im Simulator auf allen vier Grössen getestet. Der Test am echten Sender (X18RS) folgt.</p><p class='klein'>DLG Version 0.3.0 · 22.11.2026 · GPL-3.0</p></body></html>
+<h2>12. Sender</h2><p>Gebaut für alle FrSky-Sender mit Ethos und Farbdisplay (800 × 480, 640 × 360, 480 × 320, 480 × 272). Im Simulator auf allen vier Grössen getestet. Der Test am echten Sender (X18RS) folgt.</p><p class='klein'>DLG Version 0.3.1 · 22.11.2026 · GPL-3.0</p></body></html>

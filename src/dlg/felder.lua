@@ -9,6 +9,7 @@
 -- w: { name, "w", Text, Werkwert, { { "Text", 1 }, { "Text", 2 } } }
 -- Grenzwerte stehen ab Werk auf 0 = aus (keine erfundenen Zahlen); der User stellt sie im Widget-Menü ein.
 local M = {}
+M.DIR = ""   -- Ordner des Skripts, setzt kern.lua beim Laden (Daten liegen in <Ordner>/daten/)
 
 local FARBEN = { { { "Grau", "Grey" }, 1 }, { { "Grün", "Green" }, 2 }, { { "Blau", "Blue" }, 3 }, { { "Gelb", "Yellow" }, 4 },
   { { "Lila", "Purple" }, 5 }, { { "Türkis", "Teal" }, 6 }, { { "Rosa", "Pink" }, 7 }, { { "Weiss", "White" }, 8 } }
@@ -212,7 +213,7 @@ function M.datei()
     p = (ok2 and type(n) == "string" and n ~= "") and n or "modell"
   end
   p = p:gsub("%.bin$", ""):gsub("[^%w%-]", "_")
-  return "daten/" .. p .. ".txt"
+  return (M.DIR or "") .. "daten/" .. p .. ".txt"
 end
 
 M.MAX_STARTS = 50
@@ -371,7 +372,7 @@ function M.textListe(w)
 end
 
 function M.schreibeText(text)
-  if os and os.mkdir then pcall(os.mkdir, "daten") end
+  if os and os.mkdir then pcall(os.mkdir, (M.DIR or "") .. "daten") end
   local ok, f = pcall(io.open, M.datei(), "w")
   if not ok or not f then return false end
   local okw = pcall(f.write, f, text)

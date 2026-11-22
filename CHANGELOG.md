@@ -3,6 +3,18 @@
 Die Versionsnummer steht in `src/dlg/main.lua` (`local VERSION`). Sie ist dieselbe in der Anleitung, im
 Paket für die Suite und hier. Der oberste Abschnitt erscheint in der FrSky Suite als Versionshinweis.
 
+## 0.3.1 (22.11.2026)
+
+- Nach «reload SCRIPTS» ruft Ethos die Widget-Funktionen auch ohne Widget auf: kein Fehler mehr im Log.
+- F3K-Runde: wird sofort beim Start, beim Ende und bei der Landung gesichert (nicht mehr alle 30 s); nach Neuladen
+  erscheint «Runde fortsetzen?». Skriptdateien und Daten werden über den Ordner des Skripts geladen.
+- Sensorsuche: RX-Akku nimmt nicht mehr «Empf.» (zweiter RSSI-Wert), sondern «Empf.-Batt.» (AppID 0xF104); Höhe
+  (0x0100) und Vario (0x0110) werden über die AppID zugewiesen.
+
+*EN: After «reload SCRIPTS» no more errors in the log (callbacks without widget). F3K round is saved at start, end and
+landing and offers «Resume round?» after reload. Scripts and data load via the script folder. Sensor search: RX battery
+no longer picks «Empf.» (second RSSI value) but 0xF104; altitude 0x0100 and vario 0x0110 assigned by AppID.*
+
 ## 0.3.0 (22.11.2026)
 
 - Ein Layout für alle Modelle: `Standard.dlg.lua` gilt für jedes Modell ohne eigene Studio-Datei (gesucht an

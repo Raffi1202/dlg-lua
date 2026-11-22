@@ -10,15 +10,16 @@ return function(w)
   if not ok or type(liste) ~= "table" then return 0 end
 
   -- 1. Application ID -> Feld (am sichersten; system.getSource beachtet die Physical ID nicht, darum hier selbst suchen)
-  local APPID = {}                                   -- z. B. [0x0B50] = "t"
+  -- Höhe und Vario gelten für alle Instanzen 0x0100–0x010F bzw. 0x0110–0x011F; 0xF104 = Empfänger-Akku (RxBatt)
+  local APPID = { [0x0100] = "hoehe", [0x0110] = "vario", [0xF104] = "rx" }
   -- 2. genauer Name (klein geschrieben) -> Felder; gibt es den Namen zweimal, bekommt der zweite das 2. Feld
   local NAMEN = { ["alt"] = { "hoehe" }, ["altitude"] = { "hoehe" }, ["vspd"] = { "vario" }, ["vario"] = { "vario" },
-    ["rxbt"] = { "rx" }, ["rx batt"] = { "rx" }, ["rssi"] = { "lq" }, ["lq"] = { "lq" } }
+    ["rxbt"] = { "rx" }, ["rx batt"] = { "rx" }, ["empf.-batt."] = { "rx" }, ["rssi"] = { "lq" }, ["lq"] = { "lq" } }
   -- 3. und 4. je Feld: Namensteile, Ausschluss (gilt für Namensteil und Einheit), Einheit (nil = nie nach Einheit)
   local REGELN = {
     { feld = "hoehe", teile = { "alt", "höhe", "hoehe", "height" }, ohne = { "gps", "galt" } },
     { feld = "vario", teile = { "vario", "vspd", "steig", "climb" }, ohne = {}, einheit = UNIT_METER_PER_SECOND },
-    { feld = "rx", teile = { "rxbt", "rx batt", "rxbatt", "rx bat", "empf" }, ohne = { "cell", "zelle" } },
+    { feld = "rx", teile = { "rxbt", "rx batt", "rxbatt", "rx bat", "empf.-batt", "empf. batt", "empf batt", "empfbatt", "empf.batt" }, ohne = { "cell", "zelle" } },
     { feld = "lq", teile = { "rssi", "lq", "link" }, ohne = {} },
   }
 
@@ -52,7 +53,9 @@ return function(w)
   end
 
   for _, s in ipairs(S) do                           -- 1. Application ID
-    if type(s.id) == "number" and APPID[s.id] then setze(APPID[s.id], s) end
+    local id = type(s.id) == "number" and math.floor(s.id) or nil
+    local f = id and (APPID[id] or ((id >= 0x0100 and id <= 0x011F) and APPID[id - id % 16]) or nil)
+    if f then setze(f, s) end
   end
   for _, s in ipairs(S) do                           -- 2. genauer Name
     local felder = NAMEN[s.name]

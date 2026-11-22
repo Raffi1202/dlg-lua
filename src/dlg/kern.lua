@@ -65,9 +65,12 @@ end
 K.phaseWav = phaseWav
 
 local function lade(datei)
-  local f, e = loadfile(datei)
+  local f, e = loadfile((K.DIR or "") .. datei)    -- K.DIR: Ordner des Skripts (main.lua), sonst relativ
+  if not f and (K.DIR or "") ~= "" then f, e = loadfile(datei) end
   if not f then error(e, 0) end
-  return f()
+  local r = f()
+  if type(r) == "table" and r.DIR == "" then r.DIR = K.DIR or "" end
+  return r
 end
 
 local function clamp(x, a, b)
@@ -481,19 +484,22 @@ local function f3kStart(w, now)
   local a = aufgabe(w)
   w.f3k = { an = true, rest = a[2], t0 = now, fl = {}, zl = {}, starts = 0, treffer = 0, nr = w.cfg.aufgabe or 1, tSp = now }
   if w.flug then w.flug.f3k = nil end              -- ein schon laufender Flug zählt nicht
+  w.dateiOffen, w.dateiJetzt = true, true          -- Runde sofort sichern (übersteht «reload» und Ausschalten)
   ansage(w, "arbeitszeit_start")
 end
 local function f3kStopp(w)
   local f = w.f3k
   if f.an then f.an, f.ende = false, true end
   if w.flug and w.flug.f3k and w.flug.tF3k == nil then w.flug.tF3k = w.flug.t end
+  w.dateiOffen, w.dateiJetzt = true, true          -- Ende sofort sichern, sonst fragt das Lua nach «reload» nach
 end
 
 -- Arbeitszeit rückwärts, Ansagen: jede volle Minute, die letzten 10 s zählen, am Ende «Arbeitszeit vorbei».
 local function f3kLauf(w, now, dt)
   local f, c = w.f3k, w.cfg
   if not f.an then return end
-  if now - (f.tSp or now) >= 30 then f.tSp, w.dateiOffen = now, true end   -- laufende Runde alle 30 s sichern
+  -- Gesichert wird nur bei Start, Ende und Landung (SD schonen). Beim Fortsetzen zieht das Lua die Zeit seit dem
+  -- Sichern über die Uhrzeit des Senders ab; Restzeit und Uhrzeit stehen immer zusammen in der Datei.
   f.tSp = f.tSp or now
   if f.rest == nil then                            -- Aufgabe C: keine Arbeitszeit, zählt vorwärts
     f.lauf = now - f.t0
@@ -663,7 +669,7 @@ local function testZustand(w, now)
     if not okL then TEST.zustand = nil print(tostring(w.name) .. ": Fehler: testzustand.lua " .. tostring(f)) return end
     ZUSTAND = f
   end
-  local ok, e = pcall(ZUSTAND, w, now, "test-zustand.json")
+  local ok, e = pcall(ZUSTAND, w, now, (K.DIR or "") .. "test-zustand.json")
   if not ok or not e then print(tostring(w.name) .. ": Fehler: Testzustand konnte nicht geschrieben werden " .. tostring(e)) end
 end
 
