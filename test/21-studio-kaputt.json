@@ -1,0 +1,47 @@
+{
+ "skripte": [
+  [
+   "src/dlg",
+   "dlg"
+  ]
+ ],
+ "widget": "dlg",
+ "abbild": false,
+ "ersetze": [
+  [
+   "scripts/dlg/kern.lua",
+   "local TEST = nil",
+   "local TEST = { kennung = \"DLG_DEMO\", zustand = true, v = { h = 52, vs = 1.8, rx = 7.9, lq = 98, phase = 4, phaseName = \"Thermik\" }, liste = { { 47, 58, 49 }, { 58, 200, 61 }, { 52, 161, 55 }, { 49, 245, 71 }, { 55, 72, 60 } }, cfg = { sprache = 1, aufgabe = 2 } }"
+  ],
+  [
+   "scripts/dlg/kern.lua",
+   "  w.modell = (ok and type(n) == \"string\" and n ~= \"\") and n or nil",
+   "  w.modell = \"Testmodell\""
+  ]
+ ],
+ "dateien": [
+  [
+   "scripts/studio/DLG_DEMO.dlg.lua",
+   "return { format = 2, ansichten = { os.exit() } }\n"
+  ]
+ ],
+ "schritte": [
+  {
+   "zustand": {
+    "fenster": [
+     800,
+     480
+    ],
+    "extra": {
+     "studio": "kaputt",
+     "ansicht": false,
+     "sDauer": "Studio: Datei fehlerhaft (DLG_DEMO.dlg.lua)"
+    }
+   },
+   "max": 30000
+  },
+  {
+   "bild": "docs/bilder-simulator/DLG - Sim 800x480 32 Studio Datei kaputt.png"
+  }
+ ]
+}

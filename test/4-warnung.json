@@ -1,0 +1,33 @@
+{
+ "skripte": [
+  [
+   "src/dlg",
+   "dlg"
+  ]
+ ],
+ "widget": "dlg",
+ "abbild": false,
+ "ersetze": [
+  [
+   "scripts/dlg/kern.lua",
+   "local TEST = nil",
+   "local TEST = { zustand = true, v = { h = 41, vs = -0.6, rx = 7.1, lq = 95, phase = 3, phaseName = \"Speed\" }, liste = { { 47, 58, 49 }, { 58, 200, 61 }, { 52, 161, 55 }, { 49, 245, 71 }, { 55, 72, 60 } }, cfg = { lqWarn = 50, lqAlarm = 35, rxWarn = 72, rxAlarm = 65, hWarn = 300, hAlarm = 400, sprache = 1 } }"
+  ],
+  [
+   "scripts/dlg/kern.lua",
+   "  w.modell = (ok and type(n) == \"string\" and n ~= \"\") and n or nil",
+   "  w.modell = \"Testmodell\""
+  ]
+ ],
+ "schritte": [
+  {
+   "zustand": {
+    "zustand": "warnung",
+    "stufe": 1
+   }
+  },
+  {
+   "bild": "docs/bilder-simulator/DLG - Sim 800x480 05 Warnung.png"
+  }
+ ]
+}

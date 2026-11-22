@@ -1,0 +1,58 @@
+{
+ "skripte": [
+  [
+   "src/dlg",
+   "dlg"
+  ]
+ ],
+ "widget": "dlg",
+ "abbild": false,
+ "ersetze": [
+  [
+   "scripts/dlg/kern.lua",
+   "local TEST = nil",
+   "local TEST = { zustand = true, v = { rx = 7.9, lq = 98 }, folge = { { 0, { h = 1, vs = 0, phase = 1, phaseName = \"Start\" } }, { 3, { h = 8, vs = 12, phase = 2, phaseName = \"Zoom\" } }, { 3.6, { h = 30, vs = 15 } }, { 4.2, { h = 48, vs = 5 } }, { 4.8, { h = 52.4, vs = 0.4 } }, { 5.4, { h = 51, vs = -0.6 } }, { 5.8, { h = 53.0, vs = 0.1 } }, { 6.5, { h = 50, vs = -0.5, phase = 4, phaseName = \"Thermik\" } }, { 9, { h = 60, vs = 1.2 } }, { 14, { h = 1.2, vs = 0, phase = 1, phaseName = \"Start\" } } }, cfg = { sprache = 1, wurfEnde = 3, wurfPhase = 2 } }"
+  ],
+  [
+   "scripts/dlg/kern.lua",
+   "  w.modell = (ok and type(n) == \"string\" and n ~= \"\") and n or nil",
+   "  w.modell = \"Testmodell\""
+  ]
+ ],
+ "schritte": [
+  {
+   "zustand": {
+    "extra": {
+     "phase": 2,
+     "flug": {
+      "imWurf": true
+     }
+    }
+   },
+   "max": 15000
+  },
+  {
+   "bild": "docs/bilder-simulator/DLG - Sim 800x480 08 waehrend des Wurfs.png"
+  },
+  {
+   "zustand": {
+    "extra": {
+     "flug": {
+      "wurf": 53.0,
+      "imWurf": false
+     },
+     "phase": 4
+    }
+   },
+   "max": 15000
+  },
+  {
+   "zustand": {
+    "extra": {
+     "anLetzt": "phase_thermik"
+    }
+   },
+   "max": 15000
+  }
+ ]
+}

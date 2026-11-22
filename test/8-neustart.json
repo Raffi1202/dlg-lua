@@ -1,0 +1,46 @@
+{
+ "skripte": [
+  [
+   "src/dlg",
+   "dlg"
+  ]
+ ],
+ "widget": "dlg",
+ "abbild": false,
+ "ersetze": [
+  [
+   "scripts/dlg/kern.lua",
+   "local TEST = nil",
+   "local TEST = { zustand = true }"
+  ],
+  [
+   "scripts/dlg/kern.lua",
+   "  w.modell = (ok and type(n) == \"string\" and n ~= \"\") and n or nil",
+   "  w.modell = \"Testmodell\""
+  ]
+ ],
+ "schritte": [
+  {
+   "zustand": {
+    "extra": {
+     "nListe": 4
+    }
+   }
+  },
+  {
+   "tipp": [
+    664,
+    454
+   ]
+  },
+  {
+   "zustand": {
+    "seite": 3
+   }
+  },
+  {
+   "bild": "docs/bilder-simulator/DLG - Sim 800x480 17 nach Neustart.png"
+  }
+ ],
+ "grundstand": "test/stand-mit-werten"
+}

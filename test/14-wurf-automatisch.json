@@ -1,0 +1,53 @@
+{
+ "skripte": [
+  [
+   "src/dlg",
+   "dlg"
+  ]
+ ],
+ "widget": "dlg",
+ "abbild": false,
+ "ersetze": [
+  [
+   "scripts/dlg/kern.lua",
+   "local TEST = nil",
+   "local TEST = { zustand = true, v = { rx = 7.9, lq = 98 }, folge = { { 0, { h = 1, vs = 0, phase = 1, phaseName = \"Start\" } }, { 3, { h = 8, vs = 12, phase = 2, phaseName = \"Zoom\" } }, { 3.6, { h = 30, vs = 15 } }, { 4.2, { h = 48, vs = 5 } }, { 4.8, { h = 52.4, vs = 0.4 } }, { 5.4, { h = 51, vs = -0.6, phase = 4, phaseName = \"Thermik\" } }, { 9, { h = 60, vs = 1.2 } }, { 14, { h = 1.2, vs = 0, phase = 1, phaseName = \"Start\" } } }, cfg = { sprache = 1, wurfEnde = 1 } }"
+  ],
+  [
+   "scripts/dlg/kern.lua",
+   "  w.modell = (ok and type(n) == \"string\" and n ~= \"\") and n or nil",
+   "  w.modell = \"Testmodell\""
+  ]
+ ],
+ "schritte": [
+  {
+   "zustand": {
+    "extra": {
+     "flug": {
+      "wurf": 52.4,
+      "imWurf": false
+     }
+    }
+   },
+   "max": 15000
+  },
+  {
+   "bild": "docs/bilder-simulator/DLG - Sim 800x480 09 nach dem Wurf.png"
+  },
+  {
+   "zustand": {
+    "extra": {
+     "nListe": 1,
+     "letzter": {
+      "wurf": 52.4
+     },
+     "flug": false
+    }
+   },
+   "max": 20000
+  },
+  {
+   "bild": "docs/bilder-simulator/DLG - Sim 800x480 11 nach der Landung.png"
+  }
+ ]
+}

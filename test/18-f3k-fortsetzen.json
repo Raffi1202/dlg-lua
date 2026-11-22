@@ -1,0 +1,66 @@
+{
+ "skripte": [
+  [
+   "src/dlg",
+   "dlg"
+  ]
+ ],
+ "widget": "dlg",
+ "abbild": false,
+ "ersetze": [
+  [
+   "scripts/dlg/kern.lua",
+   "local TEST = nil",
+   "local TEST = { zustand = true, cfg = { sprache = 1 } }"
+  ],
+  [
+   "scripts/dlg/kern.lua",
+   "  w.modell = (ok and type(n) == \"string\" and n ~= \"\") and n or nil",
+   "  w.modell = \"Testmodell\""
+  ]
+ ],
+ "schritte": [
+  {
+   "zustand": {
+    "dialog": "f3kWeiter",
+    "extra": {
+     "f3k": {
+      "n": 1,
+      "an": false
+     }
+    }
+   }
+  },
+  {
+   "bild": "docs/bilder-simulator/DLG - Sim 800x480 25 Rueckfrage Runde fortsetzen.png"
+  },
+  {
+   "tipp": [
+    510,
+    295
+   ]
+  },
+  {
+   "zustand": {
+    "dialog": "",
+    "extra": {
+     "f3k": {
+      "an": true,
+      "n": 1,
+      "aufgabe": 3
+     }
+    }
+   }
+  },
+  {
+   "tipp": [
+    400,
+    454
+   ]
+  },
+  {
+   "bild": "docs/bilder-simulator/DLG - Sim 800x480 26 Runde fortgesetzt.png"
+  }
+ ],
+ "grundstand": "test/stand-f3k"
+}

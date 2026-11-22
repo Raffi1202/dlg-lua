@@ -1,0 +1,32 @@
+{
+ "skripte": [
+  [
+   "src/dlg",
+   "dlg"
+  ]
+ ],
+ "widget": "dlg",
+ "abbild": false,
+ "ersetze": [
+  [
+   "scripts/dlg/kern.lua",
+   "local TEST = nil",
+   "local TEST = { zustand = true, tele = false, v = { phase = 2, phaseName = \"Zoom\" } }"
+  ],
+  [
+   "scripts/dlg/kern.lua",
+   "  w.modell = (ok and type(n) == \"string\" and n ~= \"\") and n or nil",
+   "  w.modell = \"Testmodell\""
+  ]
+ ],
+ "schritte": [
+  {
+   "zustand": {
+    "zustand": "keine"
+   }
+  },
+  {
+   "bild": "docs/bilder-simulator/DLG - Sim 800x480 02 ohne Telemetrie.png"
+  }
+ ]
+}

@@ -1,0 +1,104 @@
+{
+ "skripte": [
+  [
+   "src/dlg",
+   "dlg"
+  ]
+ ],
+ "widget": "dlg",
+ "abbild": false,
+ "ersetze": [
+  [
+   "scripts/dlg/kern.lua",
+   "local TEST = nil",
+   "local TEST = { zustand = true, v = { rx = 7.9, lq = 98 }, folge = { { 0, { h = 1, vs = 0, phase = 4, phaseName = \"Thermik\" } }, { 8, { h = 40, vs = 10 } }, { 9, { h = 45, vs = -0.5 } }, { 14, { h = 1, vs = 0 } }, { 24, { h = 38, vs = 10 } }, { 25, { h = 40, vs = -0.3 } } }, cfg = { sprache = 1, aufgabe = 3 } }"
+  ],
+  [
+   "scripts/dlg/kern.lua",
+   "  w.modell = (ok and type(n) == \"string\" and n ~= \"\") and n or nil",
+   "  w.modell = \"Testmodell\""
+  ]
+ ],
+ "schritte": [
+  {
+   "tipp": [
+    400,
+    454
+   ]
+  },
+  {
+   "zustand": {
+    "seite": 2
+   }
+  },
+  {
+   "bild": "docs/bilder-simulator/DLG - Sim 800x480 10 Seite F3K vor Start.png"
+  },
+  {
+   "tipp": [
+    186,
+    300
+   ]
+  },
+  {
+   "zustand": {
+    "extra": {
+     "f3k": {
+      "an": true,
+      "aufgabe": 3
+     }
+    }
+   }
+  },
+  {
+   "zustand": {
+    "extra": {
+     "f3k": {
+      "n": 1,
+      "starts": 2
+     }
+    }
+   },
+   "max": 30000
+  },
+  {
+   "bild": "docs/bilder-simulator/DLG - Sim 800x480 10 Seite F3K Runde laeuft.png"
+  },
+  {
+   "warte": 2500
+  },
+  {
+   "sichern": "test/stand-f3k"
+  },
+  {
+   "tipp": [
+    186,
+    300
+   ]
+  },
+  {
+   "zustand": {
+    "dialog": "f3kStopp"
+   }
+  },
+  {
+   "bild": "docs/bilder-simulator/DLG - Sim 800x480 10 Rueckfrage Arbeitszeit beenden.png"
+  },
+  {
+   "tipp": [
+    510,
+    295
+   ]
+  },
+  {
+   "zustand": {
+    "dialog": "",
+    "extra": {
+     "f3k": {
+      "an": false
+     }
+    }
+   }
+  }
+ ]
+}

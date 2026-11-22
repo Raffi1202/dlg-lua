@@ -1,0 +1,81 @@
+{
+ "skripte": [
+  [
+   "src/dlg",
+   "dlg"
+  ]
+ ],
+ "widget": "dlg",
+ "abbild": false,
+ "ersetze": [
+  [
+   "scripts/dlg/kern.lua",
+   "local TEST = nil",
+   "local TEST = { zustand = true, v = { h = 58, vs = -1.2, rx = 7.8, lq = 28, phase = 5, phaseName = \"Landung\" }, liste = { { 47, 58, 49 }, { 58, 200, 61 }, { 52, 161, 55 }, { 49, 245, 71 }, { 55, 72, 60 } }, cfg = { lqWarn = 50, lqAlarm = 35, rxWarn = 72, rxAlarm = 65, hWarn = 300, hAlarm = 400, sprache = 1 } }"
+  ],
+  [
+   "scripts/dlg/kern.lua",
+   "  local W, H = lcd.getWindowSize()\n",
+   "  local W, H = 480, 320\n"
+  ],
+  [
+   "scripts/dlg/kern.lua",
+   "  w.modell = (ok and type(n) == \"string\" and n ~= \"\") and n or nil",
+   "  w.modell = \"Testmodell\""
+  ]
+ ],
+ "schritte": [
+  {
+   "zustand": {
+    "zustand": "alarm",
+    "fenster": [
+     480,
+     320
+    ]
+   }
+  },
+  {
+   "bild": "docs/bilder-simulator/DLG - Sim 480x320 06 Alarm.png",
+   "schnitt": [
+    480,
+    320
+   ]
+  },
+  {
+   "tipp": [
+    240,
+    301
+   ]
+  },
+  {
+   "zustand": {
+    "seite": 2
+   }
+  },
+  {
+   "bild": "docs/bilder-simulator/DLG - Sim 480x320 10 Seite F3K.png",
+   "schnitt": [
+    480,
+    320
+   ]
+  },
+  {
+   "tipp": [
+    399,
+    301
+   ]
+  },
+  {
+   "zustand": {
+    "seite": 3
+   }
+  },
+  {
+   "bild": "docs/bilder-simulator/DLG - Sim 480x320 12 Seite STARTS.png",
+   "schnitt": [
+    480,
+    320
+   ]
+  }
+ ]
+}

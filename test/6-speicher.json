@@ -1,0 +1,60 @@
+{
+ "skripte": [
+  [
+   "src/dlg",
+   "dlg"
+  ]
+ ],
+ "widget": "dlg",
+ "abbild": true,
+ "ersetze": [
+  [
+   "scripts/dlg/kern.lua",
+   "local TEST = nil",
+   "local TEST = { zustand = true, v = { h = 52, vs = 1.8, rx = 7.9, lq = 98, phase = 4, phaseName = \"Thermik\" }, liste = { { 47, 58, 49 }, { 58, 200, 61 }, { 52, 161, 55 }, { 49, 245, 71 }, { 55, 72, 60 } }, cfg = { sprache = 1 } }"
+  ],
+  [
+   "scripts/dlg/main.lua",
+   "    local f, e = loadfile(\"kern.lua\")",
+   "    collectgarbage() print(\"SPEICHER vor Laden frei\", system.getMemoryUsage().luaRamAvailable)\n    local f, e = loadfile(\"kern.lua\")"
+  ],
+  [
+   "scripts/dlg/kern.lua",
+   "  Z.kopf(w, L)\n",
+   "  Z.kopf(w, L)\n  NPAINT=(NPAINT or 0)+1 if NPAINT==10 or NPAINT==60 then collectgarbage() print(\"SPEICHER nach \"..NPAINT..\" Bildern frei\", system.getMemoryUsage().luaRamAvailable) end\n"
+  ],
+  [
+   "scripts/dlg/kern.lua",
+   "  w.modell = (ok and type(n) == \"string\" and n ~= \"\") and n or nil",
+   "  w.modell = \"Testmodell\""
+  ]
+ ],
+ "schritte": [
+  {
+   "zustand": {
+    "zustand": "ok"
+   }
+  },
+  {
+   "warte": 3000
+  },
+  {
+   "tipp": [
+    400,
+    454
+   ]
+  },
+  {
+   "warte": 3000
+  },
+  {
+   "tipp": [
+    664,
+    454
+   ]
+  },
+  {
+   "warte": 3000
+  }
+ ]
+}

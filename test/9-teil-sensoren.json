@@ -1,0 +1,32 @@
+{
+ "skripte": [
+  [
+   "src/dlg",
+   "dlg"
+  ]
+ ],
+ "widget": "dlg",
+ "abbild": false,
+ "ersetze": [
+  [
+   "scripts/dlg/kern.lua",
+   "local TEST = nil",
+   "local TEST = { zustand = true, v = { h = 52, vs = 1.8, rx = 7.9, lq = 98, phase = 4, phaseName = \"Thermik\" }, ohne = { \"rx\" }, cfg = { sprache = 1 } }"
+  ],
+  [
+   "scripts/dlg/kern.lua",
+   "  w.modell = (ok and type(n) == \"string\" and n ~= \"\") and n or nil",
+   "  w.modell = \"Testmodell\""
+  ]
+ ],
+ "schritte": [
+  {
+   "zustand": {
+    "zustand": "ok"
+   }
+  },
+  {
+   "bild": "docs/bilder-simulator/DLG - Sim 800x480 18 ohne RX-Akku.png"
+  }
+ ]
+}
