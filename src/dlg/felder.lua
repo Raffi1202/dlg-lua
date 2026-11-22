@@ -280,7 +280,8 @@ function M.lies(w)
         if t[1] and t[1] >= 1 and t[1] <= 17 then
           w.f3kGesp = { nr = math.floor(t[1]), warAn = t[2] == 1, rest = (t[3] and t[3] >= 0 and t[3] <= 900) and t[3] or nil,
             lauf = M.zahlOder(t[4], 0, 36000), starts = M.zahlOder(t[5], 0, 99) or 0, treffer = M.zahlOder(t[6], 0, 3) or 0,
-            zielFest = t[7] == 1, zielAkt = M.zahlOder(t[8], -1, 900), wFertig = t[9] == 1, uhr = t[10], fl = {}, zl = {} }
+            zielFest = t[7] == 1, zielAkt = M.zahlOder(t[8], -1, 900), wFertig = t[9] == 1, fl = {}, zl = {},
+            uhrHi = M.zahlOder(t[10], 0, 99999), uhrLo = t[11] and M.zahlOder(t[11], 0, 99999) or nil }   -- bis 0.3.2: eine Zahl (ungültig)
         end
       elseif k == "kf" and v and w.f3kGesp then          -- Flüge der Runde: Zeit:Ziel;…
         for a, b in v:gmatch("([%d%.]+):([%d%.%-]*)") do
@@ -360,14 +361,19 @@ function M.textListe(w)
   if f0 then z[#z + 1] = "o=" .. zz(f0.wurf) .. "," .. string.format("%.1f", f0.t or 0) .. "," .. zz(f0.hmax) end
   local k = w.f3k
   -- Rückfrage «Runde fortsetzen?» noch offen: Runde weiter als laufend mit der alten Uhrzeit sichern (Auszeit bleibt)
-  local warten = w.dialog == "f3kWeiter" and k ~= nil and k.uhr ~= nil
+  local warten = w.dialog == "f3kWeiter" and k ~= nil and k.uhrHi ~= nil
   if k and (k.an or warten or #(k.fl or {}) > 0) then
-    local okU, uhr = pcall(os.time)                -- Uhrzeit beim Sichern: beim Fortsetzen läuft die Arbeitszeit nach
-    if warten then okU, uhr = true, k.uhr end
-    uhr = (okU and type(uhr) == "number") and string.format("%.0f", uhr) or ""
+    -- Uhrzeit beim Sichern (beim Fortsetzen läuft die Arbeitszeit nach) als zwei ganze Teile, nie mit %.0f
+    -- (Ethos schreibt dann «2e+09»). Bei offener Rückfrage die alte Uhrzeit behalten.
+    local uhr = ","
+    if warten then uhr = string.format("%d,%d", k.uhrHi, k.uhrLo)
+    else
+      local okU, u = pcall(os.time)
+      if okU and type(u) == "number" then u = math.floor(u) uhr = string.format("%d,%d", u // 100000, u % 100000) end
+    end
     z[#z + 1] = string.format("k=%d,%d,%s,%s,%d,%d,%d,%s,%d,%s", k.nr or 1, (k.an or warten) and 1 or 0, k.rest and string.format("%.1f", k.rest) or "-1",
       k.lauf and string.format("%.1f", k.lauf) or "", k.starts or 0, k.treffer or 0, k.zielFest and 1 or 0,
-      k.zielAkt and string.format("%.0f", k.zielAkt) or "", k.wFertig and 1 or 0, uhr)
+      k.zielAkt and string.format("%d", math.floor(k.zielAkt + 0.5)) or "", k.wFertig and 1 or 0, uhr)
     local t = {}
     for i, x in ipairs(k.fl) do t[i] = string.format("%.1f", x) .. ":" .. ((k.zl and k.zl[i]) and string.format("%.1f", k.zl[i]) or "") end
     z[#z + 1] = "kf=" .. table.concat(t, ";")

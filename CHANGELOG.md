@@ -3,6 +3,19 @@
 Die Versionsnummer steht in `src/dlg/main.lua` (`local VERSION`). Sie ist dieselbe in der Anleitung, im
 Paket für die Suite und hier. Der oberste Abschnitt erscheint in der FrSky Suite als Versionshinweis.
 
+## 0.3.3 (22.11.2026)
+
+- F3K-Runde fortsetzen am Sender: Ethos schrieb die Uhrzeit als «2e+09», dadurch wurde die Auszeit nie abgezogen.
+  Die Uhrzeit steht jetzt als zwei ganze Zahlen in der Datei. Ist sie unplausibel (alte Datei, Zukunft, älter als
+  7 Tage), geht es ohne Abzug weiter, mit Hinweis «Auszeit unbekannt, ohne Abzug fortgesetzt».
+- Zurück auf die erste Flugphase ohne passenden Namen: Ansage «Normal» statt «Flugphase 1».
+- Anleitung: Phasenansage abschalten, wenn das Modell eigene Phasen-Ansagen abspielt.
+
+*EN: Resuming an F3K round on the radio: Ethos wrote the clock time as «2e+09», so the off time was never deducted. The
+time is now stored as two integers; an implausible value resumes without deduction and shows «Off time unknown,
+resumed without deduction». Returning to the first flight mode without a matching name announces «Normal». Manual:
+switch off the flight mode announcement if the model plays its own.*
+
 ## 0.3.2 (22.11.2026)
 
 - F3K-Runde fortsetzen: Die Auszeit wurde nie abgezogen, weil beim Lesen ein leeres Feld (ohne Poker-Ziel) die

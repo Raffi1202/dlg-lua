@@ -45,7 +45,8 @@ local F = assert(loadfile("felder.lua"))()
 local pfad = F.datei()
 local function runde(rest, uhr, an)
   local f = io.open(pfad, "w")
-  f:write(string.format("k=1,%d,%.1f,0,0,0,0,,0,%d\nkf=\n", an, rest, uhr)) f:close()
+  local u = type(uhr) == "number" and string.format("%d,%d", uhr // 100000, uhr % 100000) or uhr   -- Text = alte Form
+  f:write(string.format("k=1,%d,%.1f,0,0,0,0,,0,%s\nkf=\n", an, rest, u)) f:close()
   local w = K.neu() K.lies(w) return w
 end
 local jetzt = os.time()
@@ -70,6 +71,28 @@ pruef("6. abgelaufen: keine Rückfrage", w.dialog ~= "f3kWeiter")
 pruef("6. abgelaufen: als beendet geladen, Rest 0", w.f3k.ende == true and w.f3k.rest == 0)
 w = runde(400, jetzt - 50, 0)
 pruef("3. Landung vor reload (an=0): keine Rückfrage", w.dialog ~= "f3kWeiter" and w.f3k.ende == true)
+-- 1 (0.3.3). Uhrzeit sicher als zwei ganze Teile; alte Form «2e+09» = unbekannt, ohne Abzug, mit Hinweis
+w = runde(400, jetzt - 100, 1)
+w.dateiOffen, w.dateiJetzt, w.dialog = true, true, nil
+w.f3k.an = true
+for _ = 1, 4 do uhr = uhr + 1 K.wecke(w) end
+local zk = (datei(pfad) or ""):match("k=[^\n]*") or ""
+pruef("1. Uhrzeit als zwei ganze Zahlen, keine e-Schreibweise (" .. zk .. ")", zk:match(",%d+,%d+$") ~= nil and not zk:find("e+", 1, true))
+w = runde(400, "2e+09", 1)
+pruef("1. alte Form 2e+09: Rückfrage ohne Abzug (Rest " .. tostring(w.weiterRest) .. ")", w.dialog == "f3kWeiter" and w.weiterRest == 400)
+K.knopf(w, "ja_f3kWeiter", os.clock())
+pruef("1. alte Form: fortgesetzt mit Hinweis", w.f3k.an and w.f3k.rest == 400 and tostring(w.hinweis or ""):find("Auszeit") ~= nil)
+w = runde(400, jetzt + 500, 1)
+pruef("1. Uhrzeit in der Zukunft (weg < 0): ohne Abzug", w.weiterRest == 400)
+-- 2 (0.3.3). Zurück auf Phase 1 ohne passenden Namen: «Normal»
+local gespielt = {}
+system.playFile = function(p) gespielt[#gespielt + 1] = p end
+local wp = K.neu()
+wp.cfg.ansPhase = true
+wp.v.phase, wp.v.phaseName = 4, "Thermik" K.phasen(wp)
+wp.v.phase, wp.v.phaseName = 1, "" K.phasen(wp)
+for _ = 1, 5 do uhr = uhr + 1 pcall(K.wecke, wp) end
+pruef("2. Phase 1 ohne Namen sagt phase_normal (" .. table.concat(gespielt, " ") .. ")", table.concat(gespielt, " "):find("phase_normal", 1, true) ~= nil)
 -- 8. Daten bis 0.3.0 relativ, neuer Ordner leer
 os.execute("mkdir -p neu/daten")
 F.DIR = "neu/"

@@ -78,6 +78,7 @@ local TEXT = {
   weiterTitel = { "Runde fortsetzen?", "Resume round?" },
   weiterZeile = { "Die F3K-Runde lief beim Ausschalten.", "The F3K round was running at power off." },
   weiterRest = { "Die F3K-Runde lief beim Ausschalten. Rest %s", "The F3K round was running at power off. %s left" },
+  f3kOhneAbzug = { "Auszeit unbekannt, ohne Abzug fortgesetzt", "Off time unknown, resumed without deduction" },
   f3kAbgelaufen = { "F3K-Runde abgelaufen, beendet", "F3K round expired, ended" },
   weiterJa = { "JA, FORTSETZEN", "YES, CONTINUE" },
   abbrechen = { "ABBRECHEN", "CANCEL" },

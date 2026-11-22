@@ -47,6 +47,18 @@ K.AUFGABEN = AUFGABEN
 
 -- Feste Ansagen der Flugphasen (Sprachdatei, Wortteile im Namen der Ethos-Flugphase, klein, deutsch und englisch).
 -- Reihenfolge wie die Auswahl «Ansage Phase n» in felder.lua (1 … 7; 0 = automatisch, 8 = aus).
+-- Sekunden seit dem Sichern der F3K-Runde. Die Uhrzeit steht als zwei ganze Teile in der Datei (u // 100000 und
+-- u % 100000): Ethos schreibt grosse Zahlen mit %.0f als «2e+09». nil = unbekannt oder unplausibel.
+local function seitSichern(hi, lo)
+  local ok, u = pcall(os.time)
+  if not (ok and type(u) == "number" and type(hi) == "number" and type(lo) == "number") then return nil end
+  u = math.floor(u)
+  local d = (u // 100000 - hi) * 100000 + (u % 100000 - lo)
+  if d < 0 or d > 7 * 86400 then return nil end
+  return d
+end
+K.seitSichern = seitSichern
+
 local PHASEN = {
   { "phase_start", { "start", "launch" } }, { "phase_zoom", { "zoom" } }, { "phase_speed", { "speed", "schnell" } },
   { "phase_thermik", { "therm" } }, { "phase_strecke", { "strecke", "cruise", "reise" } },
@@ -638,6 +650,7 @@ local function phasen(w)
     local wahl = w.cfg["pa" .. p] or 0
     if wahl ~= 8 then
       local wav = (wahl >= 1 and wahl <= #PHASEN) and PHASEN[wahl][1] or phaseWav(w.v.phaseName)
+      if not wav and p == 1 then wav = "phase_normal" end   -- Standardphase ohne passenden Namen: «Normal»
       if wav then ansage(w, wav) else ansage(w, "flugphase", p, UNIT_RAW or 0, 0) end
     end
   end
@@ -1004,8 +1017,8 @@ local function knopf(w, id, now)
     w.dialog = nil
     local k = w.f3k
     -- Die Arbeitszeit läuft in Wirklichkeit weiter: die Zeit seit dem letzten Sichern (Uhrzeit des Senders) abziehen
-    local ok, uhr = pcall(os.time)
-    local weg = (ok and type(uhr) == "number" and k.uhr and uhr >= k.uhr) and (uhr - k.uhr) or 0
+    local weg = seitSichern(k.uhrHi, k.uhrLo)
+    if weg == nil then weg = 0 hinweis(w, w.T.f3kOhneAbzug, now) end
     if k.rest then k.rest = math.max(0, k.rest - weg) end
     k.lauf = (k.lauf or 0) + weg
     k.an, k.ende, k.t0, k.tSp = true, nil, now - k.lauf, now
@@ -1027,7 +1040,7 @@ end
 -- Wisch nach links/rechts blättert zwischen den Seiten. Am Rand (Seite 1 nach rechts, letzte Seite nach links)
 -- bleibt der Wisch bei Ethos, damit man wie gewohnt zum nächsten Bildschirm kommt (gemessen 26.1.2: Ethos blättert
 -- nur, wenn das Widget die Bewegung nicht für sich behält). Bei offener Rückfrage wird nicht geblättert.
-K.knopf = knopf   -- für die Mac-Tests (test/fortsetzen-faelle.lua)
+K.knopf, K.phasen = knopf, phasen   -- für die Mac-Tests (test/fortsetzen-faelle.lua)
 
 function K.ereignis(w, kat, wert, x, y)
   if kat ~= EVT_TOUCH then return false end
@@ -1118,12 +1131,11 @@ function K.lies(w)
   if g then
     w.f3kGesp = nil
     w.f3k = { an = false, nr = g.nr, rest = g.rest, lauf = g.lauf, fl = g.fl, zl = g.zl, starts = g.starts,
-      treffer = g.treffer, zielFest = g.zielFest, zielAkt = g.zielAkt, wFertig = g.wFertig, ende = not g.warAn, uhr = g.uhr }
+      treffer = g.treffer, zielFest = g.zielFest, zielAkt = g.zielAkt, wFertig = g.wFertig, ende = not g.warAn, uhrHi = g.uhrHi, uhrLo = g.uhrLo }
     w.cfg.aufgabe = g.nr
     if g.warAn then
       -- Restzeit nach Abzug der Auszeit schon hier prüfen: abgelaufen = beendet laden, nicht mehr anbieten
-      local okU, uhr = pcall(os.time)
-      local weg = (okU and type(uhr) == "number" and g.uhr and uhr >= g.uhr) and (uhr - g.uhr) or 0
+      local weg = seitSichern(g.uhrHi, g.uhrLo) or 0   -- unbekannt: ohne Abzug anbieten, Hinweis beim Fortsetzen
       if g.rest and g.rest - weg <= 0 then
         w.f3k.rest, w.f3k.ende = 0, true
         w.dateiOffen, w.dateiJetzt = true, true
