@@ -1,0 +1,47 @@
+name: Bug report
+description: Something in DLG does not work as described in the README, the wiki or the manual.
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: input
+    id: radio
+    attributes:
+      label: Radio
+      description: e.g. X18RS, X20S, Twin X Lite
+    validations:
+      required: true
+  - type: input
+    id: ethos
+    attributes:
+      label: Ethos version
+      description: e.g. 26.2.0
+    validations:
+      required: true
+  - type: input
+    id: receiver
+    attributes:
+      label: Receiver
+      description: e.g. Archer SR10+, TD R10 (2.4 GHz + 900 MHz), TW R6 (two 2.4 GHz bands)
+  - type: input
+    id: version
+    attributes:
+      label: DLG version
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect, what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: Log lines, screenshots
+      description: Lines from the debug log of the FrSky Suite or the Lua log, screenshots of the radio screen. Please remove personal data.
