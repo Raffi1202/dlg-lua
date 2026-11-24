@@ -2,6 +2,10 @@
 
 **English** · [Deutsch](README.de.md) · Documentation: [Wiki (English)](wiki/en/Installation.md) · [Wiki (Deutsch)](wiki/de/Installation.md)
 
+This project is open source and free. If you like it, you can support it with a donation:
+
+<a href="https://paypal.me/RaphaelHunziker"><img src=".github/paypal-donate.png" alt="Donate with PayPal" width="200"></a>
+
 > **Configure on your PC with [Lua-Studio](https://github.com/Raffi1202/lua-studio)** – arrange the FLIGHT page, choose values and limits, then transfer to the radio.
 
 **DLG** is an Ethos widget (full screen) for discus launch gliders (DLG, F3K) on FrSky radios with a colour display. It shows the active flight mode large and in colour, measures the launch height of every launch, keeps a launch list and helps with all F3K tasks with working time, announcements and score. Display, menu and voice in German and English.
@@ -45,12 +49,6 @@ lua test/wertung-test.lua .          # F3K score (examples from the rules) and f
 ```
 
 The flows `test/*.json` are meant for a simulator driver based on the Ethos WASM simulator; that driver, the random test and the package scripts belong to the author's build kit and are not part of this repo.
-
-## Support
-
-This project is free. If you would like to support the work, you can do so via PayPal: https://paypal.me/RaphaelHunziker. Thank you!
-
-[![Donate with PayPal](https://img.shields.io/badge/PayPal-Donate-003087?logo=paypal&logoColor=white)](https://paypal.me/RaphaelHunziker)
 
 ## License
 

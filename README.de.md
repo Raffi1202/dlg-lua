@@ -2,6 +2,10 @@
 
 [English](README.md) · **Deutsch** · Dokumentation: [Wiki (English)](wiki/en/Installation.md) · [Wiki (Deutsch)](wiki/de/Installation.md)
 
+Dieses Projekt ist Open Source und kostenlos. Wenn es dir gefällt, kannst du es mit einer Spende unterstützen:
+
+<a href="https://paypal.me/RaphaelHunziker"><img src=".github/paypal-spenden.png" alt="Spenden mit PayPal" width="200"></a>
+
 > **Am PC einrichten mit [Lua-Studio](https://github.com/Raffi1202/lua-studio)** – Seite FLUG anordnen, Werte und Grenzen wählen, dann auf den Sender übertragen.
 
 **DLG** ist ein Ethos-Widget (Vollbild) für Wurfgleiter (DLG, F3K) auf FrSky-Sendern mit Farbdisplay. Es zeigt die aktive Flugphase gross und farbig, misst die Wurfhöhe jedes Starts, führt eine Startliste und hilft bei allen F3K-Aufgaben mit Arbeitszeit, Ansagen und Wertung. Anzeige, Menü und Ansagen deutsch und englisch.
@@ -45,12 +49,6 @@ lua test/wertung-test.lua .          # F3K Wertung (Beispiele aus dem Reglement)
 ```
 
 Die Abläufe `test/*.json` sind für einen Simulator-Treiber auf Basis des Ethos-WASM-Simulators gedacht; Treiber, Zufallstest und Paket-Skripte gehören zum Werkzeugkasten des Autors und liegen nicht in diesem Repo.
-
-## Unterstützen
-
-Dieses Projekt ist kostenlos. Wer die Arbeit unterstützen möchte, kann das über PayPal tun: https://paypal.me/RaphaelHunziker. Vielen Dank!
-
-[![Spenden mit PayPal](https://img.shields.io/badge/PayPal-Spenden-003087?logo=paypal&logoColor=white)](https://paypal.me/RaphaelHunziker)
 
 ## Lizenz
 
