@@ -48,7 +48,7 @@ The flows `test/*.json` are meant for a simulator driver based on the Ethos WASM
 
 ## Support
 
-This project is free. If you would like to support the work, you can do so via PayPal: https://paypal.me/Raffi1202. Thank you!
+This project is free. If you would like to support the work, you can do so via PayPal: https://paypal.me/RaphaelHunziker. Thank you!
 
 ## License
 
