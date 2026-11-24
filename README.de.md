@@ -46,6 +46,10 @@ lua test/wertung-test.lua .          # F3K Wertung (Beispiele aus dem Reglement)
 
 Die Abläufe `test/*.json` sind für einen Simulator-Treiber auf Basis des Ethos-WASM-Simulators gedacht; Treiber, Zufallstest und Paket-Skripte gehören zum Werkzeugkasten des Autors und liegen nicht in diesem Repo.
 
+## Unterstützen
+
+Dieses Projekt ist kostenlos. Wer die Arbeit unterstützen möchte, kann das über PayPal tun: https://paypal.me/Raffi1202. Vielen Dank!
+
 ## Lizenz
 
 GPL-3.0-or-later, siehe [LICENSE](LICENSE).
